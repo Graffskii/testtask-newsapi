@@ -1,0 +1,14 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPoints": ["./src"],
+    "entryPointStrategy": "expand",
+    "out": "./docs",
+    "name": "News API Documentation",
+    "readme": "none",
+    "exclude": [
+      "**/*.spec.ts",
+      "node_modules/**/*"
+    ],
+    "excludePrivate": true,
+    "hideGenerator": true
+  }
