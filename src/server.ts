@@ -5,8 +5,11 @@ import connectDB from './config/db';
 import authRoutes from './routes/auth.routes';
 import newsRoutes from './routes/news.routes';
 
+import SchedulerService from './services/scheduler.service';
+
 dotenv.config();
 connectDB();
+SchedulerService.initScheduledJobs();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
