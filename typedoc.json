@@ -2,7 +2,7 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": ["./src"],
     "entryPointStrategy": "expand",
-    "out": "./docs",
+    "out": "./src/docs",
     "name": "News API Documentation",
     "readme": "none",
     "exclude": [
