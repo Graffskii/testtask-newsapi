@@ -17,6 +17,7 @@ export interface INews extends Document {
     author: Types.ObjectId; 
     status: NewsStatus;
     publishAt?: Date; // Необязательная дата для отложенной публикации
+    imageUrl?: string;
 }
 
 const NewsSchema = new Schema<INews>(
@@ -42,6 +43,9 @@ const NewsSchema = new Schema<INews>(
         },
         publishAt: {
             type: Date,
+        },
+        imageUrl: { 
+            type: String,
         },
     },
     {

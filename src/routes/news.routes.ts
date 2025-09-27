@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { protect } from '../middleware/auth.middleware';
+import { upload } from '../middleware/upload.middleware';
 import NewsController from '../controllers/news.controller';
 
 const router = Router();
@@ -33,6 +34,17 @@ router.put('/:id', NewsController.update);
  * @access Private (только автор)
  */
 router.delete('/:id', NewsController.delete);
+
+/**
+ * @route POST /api/v1/news/:id/image
+ * @description Загрузить изображение для статьи
+ * @access Private (только автор)
+ */
+router.post(
+    '/:id/image',
+    upload.single('image'), 
+    NewsController.uploadImage
+);
 
 
 export default router;

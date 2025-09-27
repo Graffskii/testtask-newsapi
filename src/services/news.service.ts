@@ -86,6 +86,29 @@ class NewsService {
 
         await News.findByIdAndDelete(id);
     }
+
+    /**
+     * Добавляет или обновляет URL изображения для новостной статьи.
+     * @param {string} id - ID новости.
+     * @param {string} userId - ID пользователя для проверки прав.
+     * @param {string} imageUrl - Путь к файлу изображения.
+     * @returns {Promise<INews | null>} - Обновленный документ новости.
+     * @throws {Error} - Если новость не найдена или пользователь не является автором.
+     */
+    public async addImage(id: string, userId: string, imageUrl: string): Promise<INews | null> {
+        const news = await this.findById(id);
+
+        if (!news) {
+            throw new Error('Новость не найдена');
+        }
+
+        if (news.author.toString() !== userId) {
+            throw new Error('Доступ запрещен: вы не являетесь автором этой статьи');
+        }
+
+        news.imageUrl = imageUrl;
+        return await news.save();
+    }
 }
 
 export default new NewsService();

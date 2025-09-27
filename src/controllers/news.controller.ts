@@ -64,6 +64,30 @@ class NewsController {
             return res.status(500).json({ success: false, message: error.message });
         }
     }
+
+    /**
+     * Обрабатывает загрузку изображения для статьи.
+     */
+    public async uploadImage(req: Request, res: Response): Promise<Response> {
+        try {
+            if (!req.file) {
+                return res.status(400).json({ success: false, message: 'Файл не был загружен' });
+            }
+
+            const imageUrl = `/uploads/${req.file.filename}`;
+
+            const news = await NewsService.addImage(req.params.id, req.user!.id, imageUrl);
+            return res.status(200).json({ success: true, data: news });
+        } catch (error: any) {
+            if (error.message.includes('не найдена')) {
+                return res.status(404).json({ success: false, message: error.message });
+            }
+            if (error.message.includes('Доступ запрещен')) {
+                return res.status(403).json({ success: false, message: error.message });
+            }
+            return res.status(500).json({ success: false, message: error.message });
+        }
+    }
 }
 
 export default new NewsController();
