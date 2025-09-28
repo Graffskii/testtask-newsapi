@@ -1,22 +1,23 @@
 version: '3.8'
 
 services:
-  app:
+  backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./backend
       target: development 
-    container_name: news_api_app
+    container_name: news_api_backend
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/usr/src/app/src
+      - ./backend/src:/usr/src/app/src
+      - ./backend/uploads:/usr/src/app/uploads
     env_file:
-      - ./.env 
+      - ./backend/.env 
     depends_on:
       - mongo 
     networks:
       - news-network
+
 
   mongo:
     image: mongo:latest
