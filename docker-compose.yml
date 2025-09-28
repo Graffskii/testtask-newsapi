@@ -18,6 +18,20 @@ services:
     networks:
       - news-network
 
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    container_name: news_api_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - news-network
+    stdin_open: true 
+    tty: true
 
   mongo:
     image: mongo:latest
