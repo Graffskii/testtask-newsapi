@@ -22,6 +22,13 @@ router.post('/', NewsController.create);
 router.get('/', NewsController.getAll);
 
 /**
+ * @route GET /api/v1/news/:id
+ * @description Получить одну статью по ID
+ * @access Private (только автор)
+ */
+router.get('/:id', NewsController.getById);
+
+/**
  * @route PUT /api/v1/news/:id
  * @description Обновить статью по ID
  * @access Private (только автор)

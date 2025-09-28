@@ -30,6 +30,25 @@ export class NewsController {
     }
     
     /**
+     * Получение одной статьи по ID.
+     */
+    public async getById(req: Request, res: Response): Promise<Response> {
+        try {
+            // Убедимся, что пользователь запрашивает свою же статью
+            const news = await NewsService.findById(req.params.id);
+            if (!news) {
+                return res.status(404).json({ success: false, message: 'Новость не найдена' });
+            }
+            if (news.author.toString() !== req.user!.id) {
+                return res.status(403).json({ success: false, message: 'Доступ запрещен' });
+            }
+            return res.status(200).json({ success: true, data: news });
+        } catch (error: any) {
+            return res.status(500).json({ success: false, message: error.message });
+        }
+    }
+
+    /**
      * Обновление статьи.
      */
     public async update(req: Request, res: Response): Promise<Response> {

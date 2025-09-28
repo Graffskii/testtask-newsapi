@@ -4,6 +4,7 @@ import apiClient from '../api/axios';
 interface AuthContextType {
     token: string | null;
     isAuthenticated: boolean;
+    isLoading: boolean;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -11,31 +12,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [token, setToken] = useState<string | null>(null); 
+    const [isLoading, setIsLoading] = useState(true); 
 
     useEffect(() => {
-        if (token) {
-            apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            localStorage.setItem('token', token);
-        } else {
-            delete apiClient.defaults.headers.common['Authorization'];
-            localStorage.removeItem('token');
+        const initialToken = localStorage.getItem('token');
+        if (initialToken) {
+            setToken(initialToken);
+            apiClient.defaults.headers.common['Authorization'] = `Bearer ${initialToken}`;
         }
-    }, [token]); 
+        setIsLoading(false); 
+    }, []);
 
     const login = (newToken: string) => {
         localStorage.setItem('token', newToken);
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
         setToken(newToken);
     };
 
     const logout = () => {
         localStorage.removeItem('token');
+        delete apiClient.defaults.headers.common['Authorization'];
         setToken(null);
     };
 
     const value = {
         token,
         isAuthenticated: !!token,
+        isLoading, // <-- ДОБАВИТЬ ЭТО
         login,
         logout,
     };
