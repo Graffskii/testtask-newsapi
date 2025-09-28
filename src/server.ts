@@ -2,6 +2,8 @@ import express, { Application, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db';
 import path from 'path';
+import cors from 'cors';
+import { corsOptions } from './config/cors';
 
 import authRoutes from './routes/auth.routes';
 import newsRoutes from './routes/news.routes';
@@ -14,6 +16,8 @@ SchedulerService.initScheduledJobs();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
