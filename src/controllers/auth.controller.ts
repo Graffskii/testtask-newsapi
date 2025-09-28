@@ -4,7 +4,7 @@ import AuthService from '../services/auth.service';
 /**
  * Контроллер для обработки запросов, связанных с аутентификацией.
  */
-class AuthController {
+export class AuthController {
     /**
      * Обрабатывает запрос на регистрацию нового пользователя.
      * @param {Request} req - Объект запроса Express.

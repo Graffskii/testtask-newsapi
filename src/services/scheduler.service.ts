@@ -5,7 +5,7 @@ import { NewsStatus } from '../models/News.model';
 /**
  * Сервис для управления фоновыми и отложенными задачами.
  */
-class SchedulerService {
+export class SchedulerService {
 
     /**
      * Инициализирует все запланированные задачи (cron jobs) для приложения.

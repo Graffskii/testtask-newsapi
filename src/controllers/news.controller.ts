@@ -4,7 +4,7 @@ import NewsService from '../services/news.service';
 /**
  * Контроллер для обработки CRUD-запросов для новостей.
  */
-class NewsController {
+export class NewsController {
     /**
      * Создание новой статьи.
      */

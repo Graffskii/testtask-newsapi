@@ -5,7 +5,7 @@ import { Types } from 'mongoose';
 /**
  * Сервис для управления бизнес-логикой новостных статей.
  */
-class NewsService {
+export class NewsService {
     /**
      * Создает новую новостную статью.
      * @param {CreateNewsDto} createNewsDto - DTO с данными для создания.
