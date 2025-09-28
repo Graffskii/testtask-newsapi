@@ -7,6 +7,8 @@ import DashboardPage from './pages/DashboardPage';
 import EditorPage from './pages/EditorPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+import ProtectedRoute from './components/ProtectedRoute'
+
 function App() {
     return (
         <AuthProvider>
@@ -15,10 +17,11 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     
-                    {/* Защищенные роуты */}
-                    <Route path="/" element={<DashboardPage />} />
-                    <Route path="/editor/new" element={<EditorPage />} />
-                    <Route path="/editor/:id" element={<EditorPage />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/" element={<DashboardPage />} />
+                        <Route path="/editor/new" element={<EditorPage />} />
+                        <Route path="/editor/:id" element={<EditorPage />} />
+                    </Route>
                     
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>

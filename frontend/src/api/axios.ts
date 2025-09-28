@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Создаем экземпляр axios с базовой конфигурацией
 const apiClient = axios.create({
-    baseURL: 'http://news_api_backend:3000/api/v1',
+    baseURL: 'http://localhost:3000/api/v1',
 });
 
 /**
@@ -11,8 +11,9 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('authToken');
+        console.log(token);
         if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers['Authorization'] = `Bearer ${token}`;
         }
         return config;
     },

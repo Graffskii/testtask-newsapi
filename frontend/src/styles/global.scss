@@ -1,0 +1,23 @@
+.tiptap {
+    border: 1px solid #c4c4c4;
+    border-radius: 4px;
+    padding: 1rem;
+    min-height: 300px;
+
+    &:focus {
+        outline: 2px solid #1976d2; // MUI primary color
+    }
+
+    > * + * {
+        margin-top: 0.75em;
+    }
+
+    h1, h2, h3 {
+        line-height: 1.1;
+    }
+
+    blockquote {
+        padding-left: 1rem;
+        border-left: 3px solid rgba(0, 0, 0, 0.1);
+    }
+}
