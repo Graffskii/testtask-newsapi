@@ -5,6 +5,8 @@ import StarterKit from '@tiptap/starter-kit';
 import apiClient from '../api/axios';
 import { type INews } from '../types/news';
 
+import PreviewModal from '../components/PreviewModal';
+
 import MenuBar from '../components/MenuBar';
 import {
     Container,
@@ -28,6 +30,7 @@ const EditorPage = () => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(!isNew); 
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+    const [previewOpen, setPreviewOpen] = useState(false);
 
     const editor = useEditor({
         extensions: [StarterKit],
@@ -160,10 +163,22 @@ const EditorPage = () => {
                     <Button variant="contained" onClick={handleSave}>
                         Сохранить
                     </Button>
+                    <Button variant="contained" color="secondary" onClick={() => setPreviewOpen(true)}>
+                        Предпросмотр
+                    </Button>
                     <Button variant="outlined" onClick={() => navigate('/')}>
                         Отмена
                     </Button>
                 </Box>
+
+                {editor && (
+                    <PreviewModal
+                        open={previewOpen}
+                        onClose={() => setPreviewOpen(false)}
+                        title={title}
+                        content={editor.getHTML()}
+                    />
+                )}
             </Box>
         </Container>
     );
