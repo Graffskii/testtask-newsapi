@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
+
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -43,9 +45,11 @@ const AppRoutes = () => {
 function App() {
   return (
       <AuthProvider>
-          <Router>
-              <AppRoutes />
-          </Router>
+          <SocketProvider> 
+                <Router>
+                    <AppRoutes />
+                </Router>
+            </SocketProvider>
       </AuthProvider>
   );
 }

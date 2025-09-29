@@ -4,6 +4,9 @@ import connectDB from './config/db';
 import path from 'path';
 import cors from 'cors';
 import { corsOptions } from './config/cors';
+import http from 'http';
+import { Server } from 'socket.io';
+import SocketService from './services/socket.service';
 
 import authRoutes from './routes/auth.routes';
 import newsRoutes from './routes/news.routes';
@@ -16,6 +19,14 @@ SchedulerService.initScheduledJobs();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
+
+const httpServer = http.createServer(app);
+
+const io = new Server(httpServer, {
+    cors: corsOptions 
+});
+
+SocketService.init(io);
 
 app.use(cors(corsOptions));
 
@@ -32,7 +43,7 @@ app.use('/api/v1/news', newsRoutes);
 
 
 if (require.main === module) {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
         console.log(`Сервер запущен на http://localhost:${PORT}`);
     });
 }

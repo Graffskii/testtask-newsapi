@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import apiClient from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import NotificationBell from '../components/NotificationBell';
 import { type INews } from '../types/news';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
@@ -60,6 +61,7 @@ const DashboardPage = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Мои Новости
                     </Typography>
+                    <NotificationBell /> 
                     <Button color="inherit" onClick={() => navigate('/editor/new')}>
                         Создать новость
                     </Button>

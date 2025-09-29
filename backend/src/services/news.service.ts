@@ -1,6 +1,7 @@
 import News, { INews, NewsStatus } from '../models/News.model';
 import { CreateNewsDto, UpdateNewsDto } from '../dto/news.dto';
 import { Types } from 'mongoose';
+import SocketService from './socket.service';
 
 /**
  * Сервис для управления бизнес-логикой новостных статей.
@@ -20,6 +21,11 @@ export class NewsService {
         };
 
         const news = new News(newsData);
+
+        SocketService.emit('news_created', { 
+            message: `Создана новая статья: "${news.title}"` 
+        });
+
         return await news.save();
     }
 
@@ -62,7 +68,13 @@ export class NewsService {
         }
 
         Object.assign(news, updateNewsDto);
-        return await news.save();
+        const updatedNews = await news.save();
+
+        SocketService.emit('news_updated', {
+            message: `Статья "${updatedNews.title}" была обновлена.`
+        });
+
+        return updatedNews
     }
 
     /**
@@ -83,6 +95,10 @@ export class NewsService {
         if (news.author.toString() !== userId) {
             throw new Error('Доступ запрещен: вы не являетесь автором этой статьи');
         }
+
+        SocketService.emit('news_deleted', {
+            message: `Статья "${news.title}" была удалена.`
+        });
 
         await News.findByIdAndDelete(id);
     }
