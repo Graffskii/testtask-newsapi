@@ -7,6 +7,8 @@ import { corsOptions } from './config/cors';
 import http from 'http';
 import { Server } from 'socket.io';
 import SocketService from './services/socket.service';
+import swaggerUi from 'swagger-ui-express'; 
+import { swaggerSpec } from './config/swagger'; 
 
 import authRoutes from './routes/auth.routes';
 import newsRoutes from './routes/news.routes';
@@ -31,6 +33,8 @@ SocketService.init(io);
 app.use(cors(corsOptions));
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/app-docs', express.static(path.join(__dirname, './docs')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.get('/api/v1/health', (req: Request, res: Response) => {
