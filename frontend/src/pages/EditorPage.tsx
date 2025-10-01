@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Image from '@tiptap/extension-image';
+
 import apiClient from '../api/axios';
 import { type INews } from '../types/news';
-
-import PreviewModal from '../components/PreviewModal';
 
 import MenuBar from '../components/MenuBar';
 import {
@@ -29,11 +29,14 @@ const EditorPage = () => {
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(!isNew); 
-    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-    const [previewOpen, setPreviewOpen] = useState(false);
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: [
+            StarterKit,
+            Image.configure({ 
+                inline: false, 
+            }),
+        ],
         content: '',
     });
 
@@ -48,36 +51,13 @@ const EditorPage = () => {
             .then(response => {
                 const article: INews = response.data.data;
                 setTitle(article.title);
-                setImageUrl(article.imageUrl);
                 if (editor) {
                     editor.commands.setContent(article.content);
                 }
             })
             .catch(() => setError('Не удалось загрузить статью'))
             .finally(() => setLoading(false));
-
     }, [id, isNew, editor]);
-
-    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file || isNew || !id) {
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('image', file); 
-
-        try {
-            const response = await apiClient.post(`/news/${id}/image`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            setImageUrl(response.data.data.imageUrl);
-        } catch (err) {
-            setError('Ошибка загрузки изображения');
-        }
-    };
     
     const handleSave = async () => {
         if (!editor) return;
@@ -107,6 +87,18 @@ const EditorPage = () => {
         return <div>Инициализация редактора...</div>;
     }
 
+    const handlePreview = () => {
+        if (!editor) return;
+
+        const previewData = {
+            title,
+            content: editor.getHTML(),
+        };
+        sessionStorage.setItem('articlePreview', JSON.stringify(previewData));
+
+        window.open('/preview', '_blank');
+    };
+
     return (
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -114,38 +106,6 @@ const EditorPage = () => {
             </Typography>
             
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-
-            <Box sx={{ my: 2 }}>
-                <Typography variant="h6" gutterBottom>Изображение статьи</Typography>
-                {imageUrl && (
-                    <Card sx={{ maxWidth: 345, mb: 2 }}>
-                        <CardMedia
-                            component="img"
-                            height="140"
-                            image={`http://localhost:3000${imageUrl}`} // <-- Формируем полный URL
-                            alt="Изображение статьи"
-                        />
-                    </Card>
-                )}
-                {!isNew ? (
-                    <label htmlFor="upload-button-file">
-                        <Input
-                            sx={{ display: 'none' }}
-                            id="upload-button-file"
-                            type="file"
-                            onChange={handleImageUpload}
-                            accept="image/*"
-                        />
-                        <Button variant="outlined" component="span">
-                            {imageUrl ? 'Заменить изображение' : 'Загрузить изображение'}
-                        </Button>
-                    </label>
-                ) : (
-                    <Typography variant="body2" color="text.secondary">
-                        Сначала сохраните статью, чтобы можно было загрузить изображение.
-                    </Typography>
-                )}
-            </Box>
 
             <Box component="form" noValidate autoComplete="off">
                 <TextField
@@ -163,22 +123,13 @@ const EditorPage = () => {
                     <Button variant="contained" onClick={handleSave}>
                         Сохранить
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={() => setPreviewOpen(true)}>
+                    <Button variant="contained" color="secondary" onClick={handlePreview}>
                         Предпросмотр
                     </Button>
                     <Button variant="outlined" onClick={() => navigate('/')}>
                         Отмена
                     </Button>
                 </Box>
-
-                {editor && (
-                    <PreviewModal
-                        open={previewOpen}
-                        onClose={() => setPreviewOpen(false)}
-                        title={title}
-                        content={editor.getHTML()}
-                    />
-                )}
             </Box>
         </Container>
     );

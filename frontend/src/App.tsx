@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import EditorPage from './pages/EditorPage';
 import NotFoundPage from './pages/NotFoundPage';
+import PreviewPage from './pages/PreviewPage';
 
 import { useAuth } from './context/AuthContext';
 import { CircularProgress, Box } from '@mui/material';
@@ -34,6 +35,7 @@ const AppRoutes = () => {
               <Route path="/" element={<DashboardPage />} />
               <Route path="/editor/new" element={<EditorPage />} />
               <Route path="/editor/:id" element={<EditorPage />} />
+              <Route path="/preview" element={<PreviewPage />} />
           </Route>
           
           <Route path="*" element={<NotFoundPage />} />
