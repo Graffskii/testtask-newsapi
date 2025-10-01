@@ -12,6 +12,7 @@ import { swaggerSpec } from './config/swagger';
 
 import authRoutes from './routes/auth.routes';
 import newsRoutes from './routes/news.routes';
+import assetRoutes from './routes/asset.routes';
 
 import SchedulerService from './services/scheduler.service';
 
@@ -44,6 +45,7 @@ app.get('/api/v1/health', (req: Request, res: Response) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/news', newsRoutes);
+app.use('/api/v1/assets', assetRoutes);
 
 
 if (require.main === module) {
