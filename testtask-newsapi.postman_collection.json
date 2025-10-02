@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "4c79782b-9262-4066-a1fe-30fedee9ceb2",
 		"name": "testtask-newsapi",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "28296223"
 	},
 	"item": [
@@ -20,20 +20,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/v1/auth/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"register"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/auth/register"
 			},
 			"response": []
 		},
@@ -51,20 +38,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/v1/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"login"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/auth/login"
 			},
 			"response": []
 		},
@@ -73,19 +47,7 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/v1/health",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"health"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/health"
 			},
 			"response": []
 		},
@@ -117,19 +79,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/v1/news",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"news"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/news"
 			},
 			"response": []
 		},
@@ -144,20 +94,7 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:3000/api/v1/news/68d7fcf8d58dce384199ee72",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"news",
-						"68d7fcf8d58dce384199ee72"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/news/68d7fcf8d58dce384199ee72"
 			},
 			"response": []
 		},
@@ -181,20 +118,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:3000/api/v1/news/68d7f7b15062da894e5ef867",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"news",
-						"68d7f7b15062da894e5ef867"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/news/68d7f7b15062da894e5ef867"
 			},
 			"response": []
 		},
@@ -209,59 +133,16 @@
 						"type": "text"
 					}
 				],
-				"url": {
-					"raw": "http://localhost:3000/api/v1/news/68d7f7b15062da894e5ef867",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"news",
-						"68d7f7b15062da894e5ef867"
-					]
-				}
+				"url": "http://localhost:3000/api/v1/news/68d7f7b15062da894e5ef867"
 			},
 			"response": []
 		},
 		{
-			"name": "/api/v1/news/:id/image",
+			"name": "/api/v1/assets/upload",
 			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZDdlZWZhZGMzYmRiZGZmNGNmMWNiZSIsImlhdCI6MTc1ODk4Nzc1NSwiZXhwIjoxNzU4OTkxMzU1fQ.GkLNPPVHaAhXNtMo4XLGQYVWayUsnVZy6jNOa-VdmkY",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "image",
-							"type": "file",
-							"src": "/Users/user/Desktop/архитектура.png"
-						}
-					]
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/v1/news/68d7fcf8d58dce384199ee72/image",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"v1",
-						"news",
-						"68d7fcf8d58dce384199ee72",
-						"image"
-					]
-				}
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/api/v1/assets/upload"
 			},
 			"response": []
 		}
