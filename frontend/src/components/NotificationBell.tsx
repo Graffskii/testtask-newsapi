@@ -18,11 +18,13 @@ const NotificationBell = () => {
         socket.on('news_created', handleNotification);
         socket.on('news_updated', handleNotification);
         socket.on('news_deleted', handleNotification);
+        socket.on('news_scheduled_publish', handleNotification);
 
         return () => {
             socket.off('news_created', handleNotification);
             socket.off('news_updated', handleNotification);
             socket.off('news_deleted', handleNotification);
+            socket.off('news_scheduled_publish', handleNotification);
         };
     }, [socket]);
 

@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import News from '../models/News.model';
 import { NewsStatus } from '../models/News.model';
+import SocketService from './socket.service'
 
 /**
  * Сервис для управления фоновыми и отложенными задачами.
@@ -44,14 +45,21 @@ export class SchedulerService {
             return;
         }
 
-        const articleIds = articlesToPublish.map(article => article._id);
+        const articleIds = articlesToPublish.map(article => article._id.toString());
 
         const result = await News.updateMany(
             { _id: { $in: articleIds } }, 
             { $set: { status: NewsStatus.PUBLISHED } }
         );
 
-        console.log(`CRON: Успешно опубликовано ${result.modifiedCount} новостных статей.`);
+        if (result.modifiedCount > 0) {
+            console.log(`CRON: Успешно опубликовано ${result.modifiedCount} новостных статей.`);
+
+            SocketService.emit('news_scheduled_publish', {
+                message: `Автоматически опубликовано статей: ${result.modifiedCount}`,
+                updatedIds: articleIds 
+            });
+        }
     }
 }
 

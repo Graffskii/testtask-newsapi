@@ -7,4 +7,5 @@ export interface INews {
     imageUrl?: string;
     createdAt: string;
     updatedAt: string;
+    publishAt?: string;
 }

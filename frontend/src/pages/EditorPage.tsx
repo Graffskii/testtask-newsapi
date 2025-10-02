@@ -19,7 +19,13 @@ import {
     Input,
     Card,
     CardMedia,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    type SelectChangeEvent,
 } from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 const EditorPage = () => {
     const { id } = useParams<{ id: string }>(); 
@@ -29,6 +35,8 @@ const EditorPage = () => {
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(!isNew); 
+    const [status, setStatus] = useState<'draft' | 'published'>('draft');
+    const [publishAt, setPublishAt] = useState<Date | null>(null);
 
     const editor = useEditor({
         extensions: [
@@ -51,6 +59,10 @@ const EditorPage = () => {
             .then(response => {
                 const article: INews = response.data.data;
                 setTitle(article.title);
+                setStatus(article.status);
+                if (article.publishAt) {
+                    setPublishAt(new Date(article.publishAt));
+                }
                 if (editor) {
                     editor.commands.setContent(article.content);
                 }
@@ -62,10 +74,15 @@ const EditorPage = () => {
     const handleSave = async () => {
         if (!editor) return;
 
-        const payload = {
+        const payload: any = {
             title,
             content: editor.getHTML(),
+            status,
         };
+
+        if (publishAt) {
+            payload.publishAt = publishAt.toISOString();
+        }
 
         try {
             if (isNew) {
@@ -106,6 +123,28 @@ const EditorPage = () => {
             </Typography>
             
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+
+            <Box sx={{ display: 'flex', gap: 2, my: 2, alignItems: 'center' }}>
+                <FormControl sx={{ minWidth: 150 }}>
+                    <InputLabel id="status-select-label">Статус</InputLabel>
+                    <Select
+                        labelId="status-select-label"
+                        value={status}
+                        label="Статус"
+                        onChange={(e: SelectChangeEvent) => setStatus(e.target.value as 'draft' | 'published')}
+                    >
+                        <MenuItem value={'draft'}>Черновик</MenuItem>
+                        <MenuItem value={'published'}>Опубликовать</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <DateTimePicker
+                    label="Дата публикации"
+                    value={publishAt}
+                    onChange={(newValue) => setPublishAt(newValue)}
+                    ampm={false} 
+                />
+            </Box>
 
             <Box component="form" noValidate autoComplete="off">
                 <TextField
