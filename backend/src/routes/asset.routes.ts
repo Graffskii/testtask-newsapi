@@ -33,6 +33,8 @@ router.use(protect);
  *               properties:
  *                 url:
  *                   type: string
+ *       401:
+ *         description: Неверные учетные данные
  */
 router.post('/upload', upload.single('file'), AssetController.upload);
 

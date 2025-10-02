@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 /**
  * Контроллер для управления файлами.
  */
-class AssetController {
+export class AssetController {
     /**
      * Загружает файл и возвращает публичный URL для доступа к нему.
      */
